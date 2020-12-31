@@ -2,7 +2,7 @@
 
 Notes on a method to temporarily bypass a restrictive corporate firewall to install packages with yum. This has been tested on CentOS Linux release 7.9.2009 (Core) on 2020-12-30. 
 
-For this to work you need a host with unstricted internet access which can ssh to the restricted host. We will call these:
+For this to work you need a host with unrestricted internet access which can ssh to the restricted host. We will call these:
 
 internet-host
 
@@ -46,7 +46,6 @@ Ensure your virtualenv for proxy-py is active, then run the proxy:
 
 source proxy-py/bin/activate
 proxy --hostname 127.0.0.1 --port 8899
-
 ```
 
 ## 2 Reverse ssh tunnel:
@@ -56,7 +55,6 @@ proxy --hostname 127.0.0.1 --port 8899
 ````bash
 
 ssh -R 8899:localhost:8899 <Your User>@<your restricted-host>
-
 ```
 
 ## 3 Configure yum to use proxy:
@@ -73,10 +71,8 @@ Assuming curl'ing google.com usually fails, this should now work:
 
 Add to `/etc/yum.conf`:
 
-```
-
+```bash
 proxy=http://127.0.0.1:8899
-
 ```
 
 Now, you should be able to:
