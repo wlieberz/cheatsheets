@@ -52,7 +52,7 @@ proxy --hostname 127.0.0.1 --port 8899
 
 * On internet-host:
 
-````bash
+```bash
 
 ssh -R 8899:localhost:8899 <Your User>@<your restricted-host>
 ```
