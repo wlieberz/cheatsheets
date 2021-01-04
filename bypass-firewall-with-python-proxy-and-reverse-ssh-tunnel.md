@@ -81,17 +81,6 @@ Now, you should be able to:
 
 
 
-## Misc notes:
-
 * Don't forget to comment out the change you made to yum.conf when you are done. 
-
-* On the host running proxy.py you might need to temporarily open the firewall for the proxy port:
-
-`sudo firewall-cmd --zone=public --add-port=8899/tcp`
-
-clean-up with:
-
-`sudo firewall-cmd --zone=public --remove-port=8899/tcp`
-
 
 Thanks for reading. 
