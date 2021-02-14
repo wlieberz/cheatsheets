@@ -1,12 +1,8 @@
 # Overview:
 
-Notes on a method to temporarily bypass a restrictive corporate firewall to install packages with yum. This has been tested on CentOS Linux release 7.9.2009 (Core) on 2020-12-30. 
+Notes on a method to temporarily bypass a restrictive corporate firewall to install packages with yum or with apt. This has been tested on CentOS 7 and Ubuntu 18.04. 
 
-For this to work you need a host with unrestricted internet access which can ssh to the restricted host. We will call these:
-
-internet-host
-
-restricted-host
+For this to work you need a host with unrestricted internet access which can ssh to the restricted host. We will call these: internet-host & restricted-host.
 
 High-level: 
 
@@ -57,7 +53,7 @@ proxy --hostname 127.0.0.1 --port 8899
 ssh -R 8899:localhost:8899 <Your User>@<your restricted-host>
 ```
 
-## 3 Configure yum to use proxy:
+## 3 Configure host to use proxy:
 
 On your restricted-host:
 
@@ -67,7 +63,7 @@ Assuming curl'ing google.com usually fails, this should now work:
 
 `curl -x "http://127.0.0.1:8899" https://www.google.com`
 
-* Configure yum:
+#### Configure yum for RHEL-based hosts:
 
 Add to `/etc/yum.conf`:
 
@@ -75,12 +71,29 @@ Add to `/etc/yum.conf`:
 proxy=http://127.0.0.1:8899
 ```
 
+#### Configure apt for Debian-based hosts:
+
+* Add file:
+
+`/etc/apt/apt.conf.d/proxy.conf`
+
+* With contents:
+
+```
+Acquire::http::Proxy "http://127.0.0.1:8899/";
+Acquire::https::Proxy "http://127.0.0.1:8899/";
+```
+
+
 Now, you should be able to:
 
-`yum install <your required package(s)>`
+`yum install foo`
+
+or 
+
+`apt install foo`
 
 
-
-* Don't forget to comment out the change you made to yum.conf when you are done. 
+* Optional: comment out the changes you made to the yum / apt conf files when done. 
 
 Thanks for reading. 
